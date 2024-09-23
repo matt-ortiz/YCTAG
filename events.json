@@ -1,17 +1,9 @@
 [
-  {
-    "image": "https://media.istockphoto.com/id/492152106/photo/hotdogs-being-roasted-over-a-backyard-campfire.jpg?b=1&s=612x612&w=0&k=20&c=sCV9_KzUmd2p_2uAfXkCaqSr7wR153OKtHmOo_6uWmQ=",
-    "title": "Hotdog Roast",
-    "content": "Saturday October 19th<br>11:30am<br>Rain or shine<br>2085 Kenneth Road<br>"
-  },
-  {
-    "image": "https://images.pexels.com/photos/2220618/pexels-photo-2220618.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "title": "Thanksgiving Breakfast",
-    "content": "Saturday October 19th<br>11:30am<br>Rain or shine<br>2085 Kenneth Road<br>"
-  },
-  {
-    "image": "https://images.pexels.com/photos/1666816/pexels-photo-1666816.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "title": "Special Singing Group",
-    "content": "Saturday October 19th<br>11:30am<br>Rain or shine<br>2085 Kenneth Road<br>"
-  }
+    {
+        "title": "Hotdog Roast",
+        "image": "https://media.istockphoto.com/id/492152106/photo/hotdogs-being-roasted-over-a-backyard-campfire.jpg?b=1&s=612x612&w=0&k=20&c=sCV9_KzUmd2p_2uAfXkCaqSr7wR153OKtHmOo_6uWmQ=",
+        "content": "Saturday October 19th<br />\n11:30am<br />\nRain or shine<br />\n2085 Kenneth Road",
+        "publish_date": "2024-09-23",
+        "end_date": "2024-10-20"
+    }
 ]
