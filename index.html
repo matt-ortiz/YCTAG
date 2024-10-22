@@ -138,6 +138,12 @@ ul.services {
 
 
   </style>
+  <!-- Add these lines in the <head> section, just before the closing </head> tag -->
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 </head>
 <body>
   <!-- -------- START HEADER 3 w/ image on background ------- -->
@@ -366,34 +372,22 @@ ul.services {
           <div class="col-md-6 px-3 text-center">
             <h2 class="text-white mt-xl-0 mt-5">Events</h2>
             <div class="event">
-              
-
-
-                  <div class="container">
-                    <div class="row justify-space-between">
-                      <div class="col-12 mx-auto">
-                        <div class="card">
-                          
-                          <!-- Update the image src -->
-                          <img class="card-img-top" src="https://media.istockphoto.com/id/492152106/photo/hotdogs-being-roasted-over-a-backyard-campfire.jpg?b=1&s=612x612&w=0&k=20&c=sCV9_KzUmd2p_2uAfXkCaqSr7wR153OKtHmOo_6uWmQ=">
-                          
-                          <div class="card-body">
-                            <h4>Hotdog Roast</h4>
-                            <p>
-                              Saturday October 19th<br />
-                              11:30am<br />
-                              Rain or shine<br />
-                              2085 Kenneth Road<br />
-                            </p>
-                          </div>
-                        </div>
+              <div class="container">
+                <div class="row justify-space-between">
+                  <div class="col-12 mx-auto">
+                    <div id="events" class="swiper">
+                      <div class="swiper-wrapper">
+                        <!-- Slides will be dynamically added here -->
                       </div>
+                      <!-- Add Navigation buttons -->
+                      <div class="swiper-button-next"></div>
+                      <div class="swiper-button-prev"></div>
+                      <!-- Pagination -->
+                      <div class="swiper-pagination"></div>
                     </div>
                   </div>
-
-
-
-
+                </div>
+              </div>
             </div>
           </div>
 
@@ -564,4 +558,82 @@ ul.services {
   <script src="./assets/js/now-design-system-pro.min.js" type="text/javascript"></script>
   </body>
 </html>
+
+
+
+
+
+<!-- Add this script just before the closing </body> tag -->
+<script>
+  // Function to add cache busting parameter
+  function addCacheBuster(url) {
+    return `${url}?cb=${new Date().getTime()}`;
+  }
+
+  // Fetch events from the JSON file and create slides
+  fetch(addCacheBuster('events.json'))
+    .then(response => response.json())
+    .then(data => {
+      const swiperWrapper = document.querySelector('.swiper-wrapper');
+      const currentDate = new Date();
+      
+      // Filter events based on publish_date and end_date
+      const activeEvents = data.filter(event => {
+        const publishDate = new Date(event.publish_date);
+        const endDate = new Date(event.end_date);
+        return currentDate >= publishDate && currentDate <= endDate;
+      });
+
+      if (activeEvents.length === 0) {
+        // Display message when there are no events
+        swiperWrapper.innerHTML = `
+          <div class="swiper-slide">
+            <div class="card">
+              <div class="card-body">
+                <p>Our calendar is being updated. Please check back soon for upcoming events!</p>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Create slides for active events
+        activeEvents.forEach(event => {
+          const slide = document.createElement('div');
+          slide.classList.add('swiper-slide');
+
+          slide.innerHTML = `
+            <div class="card">
+              <img class="card-img-top" src="${event.image}" alt="${event.title}">
+              <div class="card-body">
+                <h4>${event.title}</h4>
+                <p>${event.content}</p>
+              </div>
+            </div>
+          `;
+
+          swiperWrapper.appendChild(slide);
+        });
+      }
+
+      // Initialize Swiper after dynamically adding slides
+      const swiper = new Swiper('.swiper', {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        loop: activeEvents.length > 1, // Only enable loop if there's more than one event
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        autoplay: activeEvents.length > 1 ? { // Only enable autoplay if there's more than one event
+          delay: 5000,
+        } : false,
+      });
+    })
+    .catch(error => console.error('Error loading events:', error));
+</script>
+
 
